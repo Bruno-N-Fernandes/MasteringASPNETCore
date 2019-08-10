@@ -1,0 +1,23 @@
+﻿@model Underwater.Models.Fish
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="view-container">
+    <h2 class="title"> Edit Fish</h2>
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <form method="post" enctype="multipart/form-data" asp-action="Edit">
+                @await Html.PartialAsync("_FormAquarium", Model)
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/wanted-ad-post.js"></script>
+}
+

@@ -8,21 +8,48 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Underwater.Filters;
+using Underwater.Models;
+using Underwater.Repositories;
 
 namespace Underwater.Controllers
 {
  
     public class AquariumController : Controller
     {
-      
-        public AquariumController( )
+        private IUnderwaterRepository Repository { get; set; }
+
+        public AquariumController(IUnderwaterRepository repository)
         {
-          
+            this.Repository = repository;
         }
 
+        [LogActionFilter]
         public IActionResult Index()
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "UserAccount");
+            }
+
+            return View(this.Repository.Getfishes());
+        }
+
+        [LogActionFilter]
+        public IActionResult Create()
+        {
             return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult Create(Fish model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            return View();
+
         }
     }
 }
